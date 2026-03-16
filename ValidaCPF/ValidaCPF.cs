@@ -3,6 +3,7 @@ using System.Reflection.Metadata;
 using System.Runtime;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using System.Security.Cryptography;
 
 
 /* Para cada método que envia um bool, posso pegar esse bool
@@ -11,6 +12,22 @@ possíveis, como "caracteres inválidos, mais de onze ou menos*/
 
 public class ValidaCPF (string CPF)
 {  
+
+    public bool TudoCerto ()
+    {
+        if 
+        (
+        TemOnzeCaracteres(CPF) &&
+        ApenasNumeros(CPF) &&
+        NaoSequencial(CPF) &&
+        VerificaDigitoUm(CPF) &&
+        VerificaDigitoDois(CPF)
+        )
+        {
+            return true;
+        }
+        return false;
+    }
 
     // Verifica o número de caracteres
     private bool TemOnzeCaracteres(string CPF)
@@ -54,15 +71,32 @@ public class ValidaCPF (string CPF)
         return false;
     }
 
-    private bool DigitosFinais(string CPF)
-    {    
+    private bool VerificaDigitoUm(string CPF)
+    { 
         int soma = 0;
 
         for (int inic = 0; inic < 9; inic++)
         {
-        int numero = CPF[inic] - '0';
-        int peso = 10 - inic;
-        soma += numero * peso;
+            int numero = CPF[inic] - '0';
+            int peso = 10 - inic;
+            soma += numero * peso;
+        }
+
+        int resto = soma % 11;
+        int digito;
+
+        if (resto < 2)
+        {
+            digito = 0;
+        }
+        else
+        {
+            digito = 11 - resto;
+        }
+
+        if (digito != CPF[9] - '0')
+        {
+            return false;
         }
 
         /*Essa conversão do CPF (string )para int é feita pela 
@@ -74,17 +108,36 @@ public class ValidaCPF (string CPF)
 
         return true;
     }
-5 × 10
-2 × 9
-9 × 8
-9 × 7
-8 × 6
-2 × 5
-2 × 4
-4 × 3
-7 × 2
+
+    private bool VerificaDigitoDois(string CPF)
+    { 
+        int soma = 0;
+
+        for (int inic = 0; inic < 10; inic++)
+        {
+            int numero = CPF[inic] - '0';
+            int peso = 11 - inic;
+            soma += numero * peso;
+        }
+
+        int resto = soma % 11;
+        int digito;
+
+        if (resto < 2)
+        {
+            digito = 0;
+        }
+        else
+        {
+            digito = 11 - resto;
+        }
+
+        if (digito != CPF[10] - '0')
+        {
+            return false;
+        }
+
+        return true;
+    }
 
 }
-
-//receber um CPF, calcular os dois dígitos verificadores, comparar com 
-// os dígitos finais
