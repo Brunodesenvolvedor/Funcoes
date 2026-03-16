@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\usertqi\\documents\\bruno\\funcoes\\funcoes.csproj": {}
+    "C:\\Users\\usertqi\\Documents\\Bruno\\Funcoes\\funcoes.csproj": {}
   },
   "projects": {
-    "C:\\Users\\usertqi\\documents\\bruno\\funcoes\\funcoes.csproj": {
+    "C:\\Users\\usertqi\\Documents\\Bruno\\Funcoes\\funcoes.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\usertqi\\documents\\bruno\\funcoes\\funcoes.csproj",
+        "projectUniqueName": "C:\\Users\\usertqi\\Documents\\Bruno\\Funcoes\\funcoes.csproj",
         "projectName": "funcoes",
-        "projectPath": "C:\\Users\\usertqi\\documents\\bruno\\funcoes\\funcoes.csproj",
+        "projectPath": "C:\\Users\\usertqi\\Documents\\Bruno\\Funcoes\\funcoes.csproj",
         "packagesPath": "C:\\Users\\usertqi\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\usertqi\\documents\\bruno\\funcoes\\obj\\",
+        "outputPath": "C:\\Users\\usertqi\\Documents\\Bruno\\Funcoes\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\usertqi\\AppData\\Roaming\\NuGet\\NuGet.Config"
