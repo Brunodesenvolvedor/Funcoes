@@ -5,46 +5,111 @@ using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Security.Cryptography;
 
+public class ValidaCPF
+{
+    private string CPF;
 
-/* Para cada método que envia um bool, posso pegar esse bool
-e transformar numa mensagem ou num ok numa lista de erros 
-possíveis, como "caracteres inválidos, mais de onze ou menos*/
-
-public class ValidaCPF (string CPF)
-{  
-
-    public bool TudoCerto ()
+    public ValidaCPF(string cpf)
     {
-        if 
-        (
-        TemOnzeCaracteres(CPF) &&
-        ApenasNumeros(CPF) &&
-        NaoSequencial(CPF) &&
-        VerificaDigitoUm(CPF) &&
-        VerificaDigitoDois(CPF)
-        )
+        CPF = cpf;
+    }
+    /* Método construtor */
+
+    public string TudoCerto ()
+    {
+        if (!CPFNaoVazio())
         {
-            return true;
+            return ("CPF não pode ser vazio");
         }
-        return false;
+        if (!TemOnzeCaracteres())
+        {
+            return ("CPF deve ter 11 caracteres");
+        }
+        if (!ApenasNumeros())
+        {
+            return ("CPF deve ter apenas números");
+        }
+        if (!NaoSequencial())
+        {
+            return ("CPF não deve ser sequencial");
+        }
+        if (!SemSequenciaCrescente())
+        {
+            return ("CPF não pode ser uma sequência crescente");
+        }
+        if (!SemSequenciaDecrescente())
+        {
+            return ("CPF não pode ser uma sequência decrescente");
+        }
+        if (!VerificaDigitoUm())
+        {
+            return ("Primeiro dígito inválido");
+        }
+        if (!VerificaDigitoDois())
+        {
+            return ("Segundo dígito inválido");
+        }
+        return ("CPF válido");
+        /* como o return vem depois dos if, não é preciso indicar
+        else */
+    }
+
+    private bool SemSequenciaCrescente()
+    {
+        for (int i = 0; i < CPF.Length - 1; i++)
+        {
+            int atual = CPF[i] - '0';
+            int proximo = CPF[i + 1] - '0';
+
+            if (atual + 1 == proximo)
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+    
+    private bool SemSequenciaDecrescente()
+    {
+        for (int i = 0; i < CPF.Length - 1; i++)
+        {
+            int atual = CPF[i] - '0';
+            int proximo = CPF[i + 1] - '0';
+
+            if (atual - 1 == proximo)
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private bool TodosIguais()
+    {
+        char primeiro = CPF[0];
+        foreach (char c in CPF)
+        {
+            if (c != primeiro)
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private bool CPFNaoVazio()
+    {
+        return !string.IsNullOrEmpty(CPF);
     }
 
     // Verifica o número de caracteres
-    private bool TemOnzeCaracteres(string CPF)
+    private bool TemOnzeCaracteres()
     {
-        if (CPF.Length == 11)
-        { 
-            return true;
-        }
-    
-        else 
-        {
-            return false;
-        }
+        return CPF.Length == 11;
     }
 
     // Verifica se há apenas números
-    private bool ApenasNumeros(string CPF)
+    private bool ApenasNumeros()
     {
         foreach (char c in CPF)
         {
@@ -57,7 +122,7 @@ public class ValidaCPF (string CPF)
     }
 
     // Verifica se os números são iguais ao primeiro
-    private bool NaoSequencial(string CPF)
+    private bool NaoSequencial()
     {
         char primeiro = CPF[0];
 
@@ -71,7 +136,7 @@ public class ValidaCPF (string CPF)
         return false;
     }
 
-    private bool VerificaDigitoUm(string CPF)
+    private bool VerificaDigitoUm()
     { 
         int soma = 0;
 
@@ -109,7 +174,7 @@ public class ValidaCPF (string CPF)
         return true;
     }
 
-    private bool VerificaDigitoDois(string CPF)
+    private bool VerificaDigitoDois()
     { 
         int soma = 0;
 
