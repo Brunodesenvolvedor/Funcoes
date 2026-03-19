@@ -1,21 +1,24 @@
-using System.Diagnostics.Contracts;
-using System.Reflection.Metadata;
-using System.Runtime;
-using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
-using System.Security.Cryptography;
+using System;
 
 /* A senha deve ter pelo menos: uma letra maiúscula, uma letra minúscula, um número, 
 um caractere especial (!@#$%...), além disso, não pode ter espaços, nem caracteres repetidos 
 em sequência (aaa, 111) */
 
+/*
+
+1. Retornar múltiplos erros
+
+em vez de parar no primeiro
+
+*/
+
 public class ValidaSenha
 {
-    private string Senha;
+    private string _senha;
 
     public ValidaSenha(string senha)
     {
-        Senha = senha;
+        _senha = senha;
     }
 
     public string TudoCerto()
@@ -26,11 +29,31 @@ public class ValidaSenha
         }
         if (!TemPeloMenosOitoCaracteres())
         {
-            return ("A senha precisa ter oito caracteres");
+            return ("A senha precisa ter 8 caracteres");
+        }
+        if (!SemEspaco())
+        {
+            return ("A senha não pode conter espaços");
         }
         if (!SemTodosIguais())
         {
             return ("Os caracteres não podem ser todos iguais");
+        }
+        if (!TemPeloMenosUmNumero())
+        {
+            return ("A senha precisa ter pelo menos um número");
+        }
+        if (!TemPeloMenosUmCaractereEspecial())
+        {
+            return ("A senha precisa ter pelo menos um caractere especial");
+        }
+        if (!TemLetraMaiuscula())
+        {
+            return ("A senha precisa ter pelo menos uma letra maiúscula");
+        }
+        if (!TemLetraMinuscula())
+        {
+            return ("A senha precisa ter pelo menos uma letra minúscula");
         }
         if (!SemSequenciaCrescente())
         {
@@ -40,24 +63,26 @@ public class ValidaSenha
         {
             return ("A senha não pode ser uma sequência decrescente");
         }
-        return ("CPF válido");
-        /* como o return vem depois dos if, não é preciso indicar
-        else */
+        if (!SemRepeticaoSequencial())
+        {
+            return "A senha não pode ter caracteres repetidos em sequência";
+        }
+        return ("Senha válida");
     }
 
     private bool SenhaNaoVazia()
     {
-        return !string.IsNullOrEmpty(Senha);
+        return !string.IsNullOrEmpty(_senha);
     }
 
     private bool TemPeloMenosOitoCaracteres()
     {
-        return Senha.Length >= 8;
+        return _senha.Length >= 8;
     }
 
     private bool TemPeloMenosUmNumero()
     {
-        foreach (char c in Senha)
+        foreach (char c in _senha)
         {
             if (char.IsDigit(c))
             {
@@ -70,7 +95,7 @@ public class ValidaSenha
 
     private bool TemPeloMenosUmCaractereEspecial()
     {
-        foreach (char c in Senha)
+        foreach (char c in _senha)
         {
             if (!char.IsLetterOrDigit(c))
             {
@@ -80,9 +105,9 @@ public class ValidaSenha
         return false;
     }
 
-    private bool SemEspaço()
+    private bool SemEspaco()
     {
-        foreach (char c in Senha)
+        foreach (char c in _senha)
         {
             if (char.IsWhiteSpace(c))
             {
@@ -92,29 +117,43 @@ public class ValidaSenha
         return true;
     }
 
-    private bool SemSequenciaCrescente()
+    private bool SemSequenciaDecrescente()
     {
-        for (int i = 0; i < Senha.Length - 1; i++)
+        for (int i = 0; i < _senha.Length - 1; i++)
         {
-            int atual = Senha[i] - '0';
-            int proximo = Senha[i + 1] - '0';
-
-            if (atual + 1 == proximo)
+            if (
+                (char.IsDigit(_senha[i]) && char.IsDigit(_senha[i + 1])) ||
+                (char.IsLetter(_senha[i]) && char.IsLetter(_senha[i + 1]))
+            )
             {
-                return false;
+                if (_senha[i] - 1 == _senha[i + 1])
+                    return false;
             }
         }
         return true;
     }
 
-    private bool SemSequenciaDecrescente()
+    private bool SemSequenciaCrescente()
     {
-        for (int i = 0; i < Senha.Length - 1; i++)
+        for (int i = 0; i < _senha.Length - 1; i++)
         {
-            int atual = Senha[i] - '0';
-            int proximo = Senha[i + 1] - '0';
+            if (
+                (char.IsDigit(_senha[i]) && char.IsDigit(_senha[i + 1])) ||
+                (char.IsLetter(_senha[i]) && char.IsLetter(_senha[i + 1]))
+            )
+            {
+                if (_senha[i] + 1 == _senha[i + 1])
+                    return false;
+            }
+        }
+        return true;
+    }
 
-            if (atual - 1 == proximo)
+    private bool SemRepeticaoSequencial()
+    {
+        for (int i = 0; i < _senha.Length - 1; i++)
+        {
+            if (_senha[i] == _senha[i + 1])
             {
                 return false;
             }
@@ -124,7 +163,7 @@ public class ValidaSenha
 
     private bool TemLetraMaiuscula()
     {
-        foreach (char c in Senha)
+        foreach (char c in _senha)
         {
             if (char.IsUpper(c))
             {
@@ -136,7 +175,7 @@ public class ValidaSenha
 
     private bool TemLetraMinuscula()
     {
-        foreach (char c in Senha)
+        foreach (char c in _senha)
         {
             if (char.IsLower(c))
             {
@@ -148,15 +187,15 @@ public class ValidaSenha
 
     private bool SemTodosIguais()
     {
-        char primeiro = Senha[0];
+        char primeiro = _senha[0];
 
-        foreach (char c in Senha)
+        foreach (char c in _senha)
         {
             if (c != primeiro)
             {
-                return false;
+                return true;
             }
         }
-        return true;
+        return false;
     }
 }
