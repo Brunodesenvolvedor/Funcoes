@@ -12,3 +12,4 @@ C:\Users\usertqi\documents\bruno\funcoes\obj\Debug\net11.0\refint\funcoes.dll
 C:\Users\usertqi\documents\bruno\funcoes\obj\Debug\net11.0\funcoes.pdb
 C:\Users\usertqi\documents\bruno\funcoes\obj\Debug\net11.0\funcoes.genruntimeconfig.cache
 C:\Users\usertqi\documents\bruno\funcoes\obj\Debug\net11.0\ref\funcoes.dll
+C:\Users\usertqi\Documents\Bruno\Funcoes\obj\Debug\net11.0\funcoes.sourcelink.json
