@@ -9,6 +9,7 @@ public class ValidaNumeroDeCelular
     {
         _numeroCelular = numeroCelular;
     }
+    // Explicando o construtor: os métodos possuem as variáveis numeroCelular que, quando recebe parâmetros, altera o valor de _numeroCelular, que é o valor que o construtor recebe. Assim, quando o método TudoCerto é chamado, ele já tem acesso ao valor atualizado de _numeroCelular, que foi passado para o construtor.
 
     public string TudoCerto()
     /* Como numeroCelular já é um objeto dentro dessa classe, não é necessário passar ele como parâmetro aqui, basta usar o _numeroCelular diretamente */
