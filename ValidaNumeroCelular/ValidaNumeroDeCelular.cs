@@ -1,8 +1,77 @@
 ﻿using System;
+using System.Linq;
 
 public class ValidaNumeroDeCelular
 {
     private string _numeroCelular;
+
+    public ValidaNumeroDeCelular(string numeroCelular)
+    {
+        _numeroCelular = numeroCelular;
+    }
+
+    public string TudoCerto()
+    /* Como numeroCelular já é um objeto dentro dessa classe, não é necessário passar ele como parâmetro aqui, basta usar o _numeroCelular diretamente */
+    {
+        if (string.IsNullOrWhiteSpace(_numeroCelular))
+        {
+            return ("O número de celular não pode ser vazio");
+        }
+    
+        LimpaNumero();
+
+        if (!ApenasNumeros())
+        {
+            return ("O número de celular deve conter apenas dígitos");
+        }
+        
+        if (!TemOnzeDigitos())
+        {
+            return ("O número de celular precisa ter 11 dígitos");
+        }
+
+        if (!DDDCorreto())
+        {
+            return ("O número de celular precisa começar com um DDD válido");
+        }
+
+        if (!ComecarComNove())
+        {
+            return ("O número de celular precisa começar com 9");
+        }
+
+
+        if (!SemSequenciaDecrescente())
+        {
+            return ("O número de celular não pode ser uma sequência decrescente");
+        }
+
+        if (!SemSequenciaCrescente())
+        {
+            return ("O número de celular não pode ser uma sequência crescente");
+        }
+
+        if (!SemRepeticaoSequencial())
+        {
+            return "O número de celular não pode ter caracteres repetidos em sequência";
+        }
+
+        return "Número válido";
+    }
+
+    private string LimpaNumero()
+    {
+        return _numeroCelular = _numeroCelular.Replace(" ", "")
+                                              .Replace("-", "")
+                                              .Replace("(", "")
+                                              .Replace(")", "")
+                                              .Replace(".", "");
+    }
+
+    private bool TemOnzeDigitos()
+    {
+        return _numeroCelular.Length == 11;
+    }
 
     private bool DDDCorreto()
     {
@@ -35,65 +104,60 @@ public class ValidaNumeroDeCelular
             96,                         // AP
             98,99                       // MA
             };
-    }
 
-    public ValidaNumeroDeCelular(string numeroCelular)
-    {
-        _numeroCelular = numeroCelular;
-    }
-
-    public string TudoCerto()
-    /* Como numeroCelular já é um objeto dentro dessa classe, não é necessário passar ele como parâmetro aqui, basta usar o _numeroCelular diretamente */
-    {
-        LimpaNumero();
-
-        if (!TemOnzeDigitos())
-        {
-            return ("O número de celular precisa ter 11 dígitos");
-        }
-
-        if (string.IsNullOrWhiteSpace(_numeroCelular))
-        {
-            return ("O número de celular não pode ser vazio");
-        }
-
-        if (!DDDCorreto())
-        {
-            return ("O número de celular precisa começar com um DDD válido");
-        }
-
-        if (!ComecarComNove())
-        {
-            return ("O número de celular precisa começar com 9");
-        }
-        return "Número válido";
-    }
-
-    private string LimpaNumero()
-    {
-        return _numeroCelular = _numeroCelular.Replace(" ", "")
-                                              .Replace("-", "")
-                                              .Replace("(", "")
-                                              .Replace(")", "")
-                                              .Replace(".", "");
-    }
-    private bool NumeroNaoVazio()
-    {
-        return !string.IsNullOrEmpty(_numeroCelular);
-    }
-    private bool TemOnzeDigitos()
-    {
-        return _numeroCelular.Length == 11;
-    }
-    private bool DDDValido()
-    {
         int ddd = int.Parse(_numeroCelular.Substring(0, 2));
         return dddsValidos.Contains(ddd);
     }
+
+    private bool ApenasNumeros()
+    {
+        return _numeroCelular.All(char.IsDigit);
+    }
+
     private bool ComecarComNove()
     {
         return _numeroCelular[2] == '9';
     }
-}
 
-// fazer verificação de numeros sequenciais e repetições
+    private bool SemSequenciaDecrescente()
+    {
+        for (int i = 0; i < _numeroCelular.Length - 1; i++)
+        {
+            int atual = _numeroCelular[i] - '0';
+            int proximo = _numeroCelular[i + 1] - '0';
+
+            if (atual - 1 == proximo)
+                return false;
+        }
+        return true;
+    }
+
+    private bool SemSequenciaCrescente()
+    {
+        for (int i = 0; i < _numeroCelular.Length - 1; i++)
+        {
+            int atual = _numeroCelular[i] - '0';
+            int proximo = _numeroCelular[i + 1] - '0';
+
+            if (atual + 1 == proximo)
+                return false;
+        }
+        return true;
+    }
+
+    private bool SemRepeticaoSequencial()
+    {
+        for (int i = 0; i < _numeroCelular.Length - 1; i++)
+        {
+            if (_numeroCelular[i] == _numeroCelular[i + 1])
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+
+
+
+
+}
