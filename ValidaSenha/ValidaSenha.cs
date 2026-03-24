@@ -18,6 +18,11 @@ public class ValidaSenha
 
     public ValidaSenha(string senha)
     {
+        if (string.IsNullOrWhiteSpace(senha))
+        {
+            return ("O número de celular não pode ser vazio");
+        }
+
         _senha = senha;
     }
 
