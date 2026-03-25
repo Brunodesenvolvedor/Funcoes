@@ -8,7 +8,7 @@ public class ValidaEmail
     {
         if (string.IsNullOrWhiteSpace(email))
         {
-            throw new ArgumentException("O e-mail não pode ser vazio");
+            throw new ArgumentException("O e-mail não pode ser vazio, nem ter espaços em branco");
         }
         _email = email;
     }
@@ -31,6 +31,18 @@ public class ValidaEmail
             return ("O e-mail deve conter um ponto ('.')");
         }
         return null;
+        if (!TemTextoAntesdaArroba())
+        {
+            return ("O e-mail deve conter texto antes do '@'");
+        }
+        if (!PrimeiroDigitoValido())
+        { 
+            return ("O primeiro dígito do e-mail não pode ser um símbolo");
+        }
+        if (!UltimoDigitoValido())
+        {
+            return ("O último dígito antes do '@' deve ser uma letra ou número");
+        }
     }
 
     private bool TemArroba()
@@ -44,7 +56,6 @@ public class ValidaEmail
                 arrobaCount++;
             }
         }
-
         return arrobaCount == 1;
     }
 
@@ -59,7 +70,7 @@ public class ValidaEmail
     }
     // IndexOf('@') procura a posição do primeiro @ dentro da string _email. O resultado é um número inteiro (se não existir, ele retorna -1). O método IndexOf('.', indexArroba) procura a posição do primeiro ponto (.) a partir da posição do @. Se o resultado for maior que a posição do @, significa que existe um ponto depois do @, o que é necessário para um email válido.
 
-    private bool TextoAntesdaArroba()
+    private bool TemTextoAntesdaArroba()
     {
         int indexArroba = _email.IndexOf('@');
         
@@ -73,10 +84,38 @@ public class ValidaEmail
         return false;
     }
 
-    //  e texto depois do ponto
-    //  primeiro digito n pode ser ponto ou _ ou @
-    // digito antes da arroba n pode ser ponto ou _ ou @
-    // não pode ser símbolos repetidos seguidos (ex: .. ou __ ou @@)
+    private bool PrimeiroDigitoValido()
+    {
+        char primeiroDigito = _email[0];
+        
+        return char.IsLetterOrDigit(primeiroDigito);
+    }
 
+    private bool UltimoDigitoValido()
+    {
+        int ultimoDigito = _email.IndexOf('@');
+        return char.IsLetterOrDigit(_email[ultimoDigito - 1]);
+    }
+
+    private bool SimbolosRepetidos()
+    {
+        for (int i = 0; i < _email.Length -1; i++)
+        {
+            char digitoAnterior = _email[i];
+            char digitoAtual = _email[i + 1];
+
+
+            bool anteriorEhSimbolo = !char.IsLetterOrDigit(digitoAnterior);
+            bool atualEhSimbolo = !char.IsLetterOrDigit(digitoAtual);
+            
+            if (anteriorEhSimbolo && atualEhSimbolo)
+            // Isso é o mesmo que (anteriorEhSimbolo == true && atualEhSimbolo == true)
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+    //  e texto depois do ponto
     // depois da arroba deve ter um ponto, e depois do ponto deve ter texto com ao menos dois caracteres, não pode ter espaços em branco
 }
