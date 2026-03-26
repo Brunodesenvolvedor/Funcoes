@@ -43,6 +43,19 @@ public class ValidaEmail
         {
             return ("O último dígito antes do '@' deve ser uma letra ou número");
         }
+        if (!SimbolosRepetidos())
+        {
+            return ("O e-mail não pode conter símbolos repetidos em sequência");
+        }
+        if(!LetraPosArroba())
+        {
+            return ("O e-mail deve conter caracteres depois da '@'");
+        }
+        if(PontoPosArroba())
+        {
+            return ("O e-mail deve conter um ponto depois da '@'");
+        }
+        return "E-mail válido";
     }
 
     private bool TemArroba()
@@ -116,6 +129,38 @@ public class ValidaEmail
         }
         return true;
     }
-    //  e texto depois do ponto
-    // depois da arroba deve ter um ponto, e depois do ponto deve ter texto com ao menos dois caracteres, não pode ter espaços em branco
+
+    private bool LetraPosArroba ()
+    {
+        int posArroba = _email.IndexOf('@') + 1;
+        int doisCaracteres = 0;
+
+        for (int i = posArroba; i < _email.Length; i++)
+        {
+            if (char.IsLetter(_email[i]))
+            {
+                doisCaracteres++;
+            }
+        }
+        return doisCaracteres >= 2;
+    }
+
+    private bool PontoPosArroba()
+    {
+        int posArroba = _email.IndexOf('@') + 1;
+        int temPonto = 0;
+
+        for (int i = posArroba; i < _email.Length; i++)
+        {
+            if (_email[i] == '.')
+            {
+                temPonto++;
+            }
+        }
+        return temPonto >= 1;
+    }
+
+
+    int posPonto = _email.IndexOf('.') + 1;
+    // depois do ponto deve ter texto com ao menos dois caracteres, não pode ter espaços em branco
 }
