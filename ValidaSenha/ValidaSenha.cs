@@ -20,7 +20,7 @@ public class ValidaSenha
     {
         if (string.IsNullOrWhiteSpace(senha))
         {
-            return ("O número de celular não pode ser vazio");
+            throw new ArgumentException("A senha não pode ser vazia");
         }
 
         _senha = senha;

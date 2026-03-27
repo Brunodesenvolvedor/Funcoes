@@ -9,7 +9,7 @@ public class ValidaNumeroDeCelular
     {
         if (string.IsNullOrWhiteSpace(numeroCelular))
         {
-            return ("O número de celular não pode ser vazio");
+            throw new ArgumentException("O número de celular não pode ser vazio");
         }
 
         _numeroCelular = numeroCelular;
@@ -158,8 +158,4 @@ public class ValidaNumeroDeCelular
         }
         return true;
     }
-
-
-
-
 }

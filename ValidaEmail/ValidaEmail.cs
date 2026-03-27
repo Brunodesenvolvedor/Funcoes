@@ -30,13 +30,12 @@ public class ValidaEmail
         {
             return ("O e-mail deve conter um ponto ('.')");
         }
-        return null;
         if (!TemTextoAntesdaArroba())
         {
             return ("O e-mail deve conter texto antes do '@'");
         }
         if (!PrimeiroDigitoValido())
-        { 
+        {
             return ("O primeiro dígito do e-mail não pode ser um símbolo");
         }
         if (!UltimoDigitoValido())
@@ -47,13 +46,13 @@ public class ValidaEmail
         {
             return ("O e-mail não pode conter símbolos repetidos em sequência");
         }
-        if(!LetraPosArroba())
+        if (!LetraPosArroba())
         {
             return ("O e-mail deve conter caracteres depois da '@'");
         }
-        if(PontoPosArroba())
+        if (!TemDoisCaracteresPosPonto())
         {
-            return ("O e-mail deve conter um ponto depois da '@'");
+            return ("O e-mail deve conterum TLD (Top-Level Domain) depois do último ponto");
         }
         return "E-mail válido";
     }
@@ -81,18 +80,18 @@ public class ValidaEmail
 
         return _email.IndexOf('.', indexArroba) > indexArroba;
     }
-    // IndexOf('@') procura a posição do primeiro @ dentro da string _email. O resultado é um número inteiro (se não existir, ele retorna -1). O método IndexOf('.', indexArroba) procura a posição do primeiro ponto (.) a partir da posição do @. Se o resultado for maior que a posição do @, significa que existe um ponto depois do @, o que é necessário para um email válido.
+    // IndexOf('@') procura a posição do primeiro @ dentro da string _email. O resultado é um número inteiro (se não existir, ele retorna -1). O método IndexOf('.', indexArroba) procura a posição do primeiro ponto (.) a partir da posição do indexArrova (@). Se o resultado for maior que a posição do @, significa que existe um ponto depois do @, o que é necessário para um email válido.
 
     private bool TemTextoAntesdaArroba()
     {
         int indexArroba = _email.IndexOf('@');
-        
-        for (int i = 0; i<indexArroba; i++)
+
+        for (int i = 0; i < indexArroba; i++)
         {
             if (char.IsLetter(_email[i]))
             {
                 return true;
-            }        
+            }
         }
         return false;
     }
@@ -100,7 +99,7 @@ public class ValidaEmail
     private bool PrimeiroDigitoValido()
     {
         char primeiroDigito = _email[0];
-        
+
         return char.IsLetterOrDigit(primeiroDigito);
     }
 
@@ -112,7 +111,7 @@ public class ValidaEmail
 
     private bool SimbolosRepetidos()
     {
-        for (int i = 0; i < _email.Length -1; i++)
+        for (int i = 0; i < _email.Length - 1; i++)
         {
             char digitoAnterior = _email[i];
             char digitoAtual = _email[i + 1];
@@ -120,7 +119,7 @@ public class ValidaEmail
 
             bool anteriorEhSimbolo = !char.IsLetterOrDigit(digitoAnterior);
             bool atualEhSimbolo = !char.IsLetterOrDigit(digitoAtual);
-            
+
             if (anteriorEhSimbolo && atualEhSimbolo)
             // Isso é o mesmo que (anteriorEhSimbolo == true && atualEhSimbolo == true)
             {
@@ -130,7 +129,7 @@ public class ValidaEmail
         return true;
     }
 
-    private bool LetraPosArroba ()
+    private bool LetraPosArroba()
     {
         int posArroba = _email.IndexOf('@') + 1;
         int doisCaracteres = 0;
@@ -145,22 +144,16 @@ public class ValidaEmail
         return doisCaracteres >= 2;
     }
 
-    private bool PontoPosArroba()
+    private bool TemDoisCaracteresPosPonto()
     {
-        int posArroba = _email.IndexOf('@') + 1;
-        int temPonto = 0;
+        int posPonto = _email.LastIndexOf('.');
 
-        for (int i = posArroba; i < _email.Length; i++)
-        {
-            if (_email[i] == '.')
-            {
-                temPonto++;
-            }
-        }
-        return temPonto >= 1;
+        if (posPonto == -1 || posPonto + 2 >= _email.Length)
+            return false;
+
+        char primeiro = _email[posPonto + 1];
+        char segundo = _email[posPonto + 2];
+
+        return char.IsLetter(primeiro) && char.IsLetter(segundo);
     }
-
-
-    int posPonto = _email.IndexOf('.') + 1;
-    // depois do ponto deve ter texto com ao menos dois caracteres, não pode ter espaços em branco
 }
