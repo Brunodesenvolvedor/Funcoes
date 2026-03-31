@@ -4,21 +4,51 @@ class Program
 {
     static void Main(string[] args)
     {
-        Console.WriteLine("Digite um email para validar:");
-        string email = Console.ReadLine();
+        Console.WriteLine("=== TESTE MANUAL ===");
+        Console.Write("Digite um número de celular: ");
+        string numero = Console.ReadLine();
 
-        ValidaEmail validador = new ValidaEmail(email);
-
-        string resultado = validador.Validar();
-        Console.WriteLine(resultado);
-
-        if (resultado == "E-mail válido")
+        try
         {
-            Console.WriteLine("Email válido ✅");
+            ValidaNumeroDeCelular validador = new ValidaNumeroDeCelular(numero);
+            string resultado = validador.TudoCerto();
+
+            Console.WriteLine(resultado);
         }
-        else
+        catch (Exception ex)
         {
-            Console.WriteLine("Email inválido ❌");
+            Console.WriteLine($"Erro: {ex.Message}");
+        }
+
+        Console.WriteLine("\n=== TESTE AUTOMÁTICO ===");
+
+        string[] testes =
+        {
+            "11987654321",      // válido
+            "(11)98765-4321",   // válido com máscara
+            "12345678901",      // sequência
+            "11999999999",      // repetição
+            "1198765432",       // menos de 11
+            "00987654321",      // DDD inválido
+            "11a87654321",      // letra
+            "11912345678"       // começa com 1 depois do DDD
+        };
+
+        foreach (var teste in testes)
+        {
+            try
+            {
+                ValidaNumeroDeCelular validador = new ValidaNumeroDeCelular(teste);
+                string resultado = validador.TudoCerto();
+
+                Console.WriteLine($"{teste} -> {resultado}");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"{teste} -> Erro: {ex.Message}");
+            }
         }
     }
 }
+
+// testar a validação de numero de celular
