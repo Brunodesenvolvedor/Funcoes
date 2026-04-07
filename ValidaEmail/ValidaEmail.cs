@@ -36,7 +36,7 @@ public class ValidaEmail
         }
         if (!PrimeiroDigitoValido())
         {
-            return ("O primeiro dígito do e-mail não pode ser um símbolo");
+            return ("O primeiro dígito do e-mail precisa ser uma letra");
         }
         if (!UltimoDigitoValido())
         {
@@ -100,7 +100,7 @@ public class ValidaEmail
     {
         char primeiroDigito = _email[0];
 
-        return char.IsLetterOrDigit(primeiroDigito);
+        return char.IsLetter(primeiroDigito);
     }
 
     private bool UltimoDigitoValido()
@@ -157,3 +157,5 @@ public class ValidaEmail
         return char.IsLetter(primeiro) && char.IsLetter(segundo);
     }
 }
+
+// criar uma função para impedir que o primeiro digito não seja um número
