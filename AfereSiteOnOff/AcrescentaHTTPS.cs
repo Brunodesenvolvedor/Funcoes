@@ -25,7 +25,6 @@ public class AcrescentaHTTPS
         return dominio.StartsWith("https://");
         // Método que verifica se a string começa com "https://" e retorna um bool
     }
-
 }
 
 

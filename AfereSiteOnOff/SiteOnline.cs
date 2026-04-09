@@ -3,7 +3,30 @@ using System;
 Console.WriteLine("Digite o endereço do site a partir do domínio\n" +
                   "Use o seguinte formato: google.com");
 
-/* criei duas classes, uma valida se há https e, caso não haja, acrescenta um; a segunda faz o mesmo com http. No program, vamos chamar o método de uma classe e, caso falhe, chamamos o método da outra (http)*/
+/* 
+
+como o program vai funcionar: 
+
+ele vai receber um dominio do usuário, uma string
+vai chamar a classe de validação de domínio, se ela retornar falsa estanca, se retornar true, avança
+
+chama a acrescenta HTTPS, ela vai verificar se tem https, se tiver, retorna a string, se não tiver, acrescenta e retorna a string
+
+chama a função testa URL, usando o https, e coloca o resultado numa variável. Caso dê certo, encerra o programa com o resultado (repensar, posso aplicar varios testes). Caso dê errado, avança
+
+chama a função acrescenta HTTP, ela vai substituir o https por http e retornar a string
+
+chama a função testa URL, agora usando o http
+
+
+    O que já fiz:
+
+  . criei uma classe para validar o dominio, ela precisa ser chamada primeiro no program, assim não preciso validar se ele vem vazio nas validações http/https.
+
+  . criei duas classes, uma valida se há https e, caso não haja, acrescenta um; a segunda substitui o https por http.
+
+
+ */
 
 /*
 1. Receber o texto do usuário
