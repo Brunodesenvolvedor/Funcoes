@@ -21,7 +21,8 @@ chama a função testa URL, agora usando o http
 
     O que já fiz:
 
-  . criei uma classe para validar o dominio, ela precisa ser chamada primeiro no program, assim não preciso validar se ele vem vazio nas validações http/https.
+  . criei uma classe para validar o dominio, ela precisa ser chamada primeiro no program, assim não preciso validar 
+    se ele vem vazio nas validações http/https.
 
   . criei duas classes, uma valida se há https e, caso não haja, acrescenta um; a segunda substitui o https por http.
 
