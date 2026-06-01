@@ -2,15 +2,12 @@ using System;
 using System.Net.Http;
 using System.Threading.Tasks;
 
-using System;
-using System.Net.Http;
-using System.Threading.Tasks;
-
 public class TestaURL
 {
     public static async Task<bool> TestarUrl(string url)
     /* 
-    - async diz que o método: pode usar await e vai executar de forma assíncrona (não bloqueia o programa)
+    - async diz que o método pode usar await e vai executar de forma assíncrona (não bloqueia o programa não 
+    completa a operação)
     - Task indica que uma operação que ainda está acontecendo vai retornar um bool
     */
     {
@@ -47,5 +44,10 @@ public class TestaURL
             Console.WriteLine($"Erro inesperado: {ex.Message}");
             return false;
         }
+        /* 
+         HttpRequestException captura erros relacionados à requisição HTTP (DNS não encontrado
+         sem internet, conexão recusada, servidor inacessível, SSL inválido etc.) 
+         TaskCanceledException pega erros quando a operação excede o tempo limite (timeout) ou a tarefa foi cancelada
+         */
     }
 }
