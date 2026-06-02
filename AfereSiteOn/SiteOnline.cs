@@ -1,7 +1,33 @@
 using System;
 
-Console.WriteLine("Digite o endereço do site a partir do domínio\n" +
-                  "Use o seguinte formato: google.com");
+bool prosseguir = false;
+
+while (!prosseguir)
+{
+    Console.WriteLine("Digite o endereço do site a partir do domínio\n" +
+                      "Use o seguinte formato: google.com");
+
+    string dominio = Console.ReadLine();
+
+    bool dominioOk = ValidaDominio.validaDominio(dominio);
+
+    if (dominioOk)
+    {
+        string dominiocomHTTP = AcrescentaHTTP.Acrescentar(dominio);
+        prosseguir = true;
+    }
+    else
+    {
+        Console.WriteLine("O domínio é inválido");
+    }
+}
+
+bool urlOk = await TestaURL.Testar(dominio);
+/* não devolve um bool imediatamente — devolve uma Task, isto é, uma operação em andamento. 
+O await espera a tarefa terminar e extrai o bool.
+*/
+
+
 
 /* 
 
@@ -10,7 +36,7 @@ como o program vai funcionar:
 ele vai receber um dominio do usuário, uma string
 vai chamar a classe de validação de domínio, se ela retornar falsa estanca, se retornar true, avança
 
-chama a acrescenta HTTPS, ela vai verificar se tem https, se tiver, retorna a string, se não tiver, acrescenta e retorna a string
+chama a acrescenta HTTP, ela vai verificar se tem http, se tiver, retorna a string, se não tiver, acrescenta e retorna a string
 
 chama a função testa URL, usando o https, e coloca o resultado numa variável. Caso dê certo, encerra o programa com o resultado (repensar, posso aplicar varios testes). Caso dê errado, avança
 
