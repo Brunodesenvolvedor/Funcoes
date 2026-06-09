@@ -2,7 +2,7 @@ using System;
 
 public class AcrescentaHTTPS
 {
-    public static string acrescentaHTTPS(string dominio)
+    public static string retornoHTTPS(string dominio)
     {
         if (!temHTTPS(dominio))
         {
