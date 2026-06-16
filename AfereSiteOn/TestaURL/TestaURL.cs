@@ -39,6 +39,7 @@ public class TestaURL
                 resposta = await client.GetAsync(url);
             }
             /*
+            Informação do GPT:
             - alguns sites não aceitam HEAD corretamente;
             - se a resposta não for bem-sucedida, tenta GET;
             - GetAsync baixa a página normalmente e serve como plano B;
