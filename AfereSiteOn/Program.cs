@@ -71,16 +71,3 @@ if (!resultadoHTTP.Sucesso || resultadoHTTP.Redirecionado)
     }
 }
 
-/* 
-Funcionamento geral do program: 
-
-1. Recebe um dominio (string) do usuário.
-2. Chama a classe de validação de domínio: se ela retornar falsa o programa estanca; se retornar true, avança.
-3. Se avançou, ele chama a função que acrescenta HTTP no domínio e retorna a string para o program.
-4. O program executa a função Testa URL, o coração do app. 
-5. A função faz uma requisição HTTP, com um tempo limite, para o endereço que o usuário informou.
-6. Se o site redirecionou, chamamos a função Acrescenta HTTPS, que troca o HTTP para HTTPS, e tentamos de novo.
-7. Sinalizamos que funcionou ou não.
-Por enquanto, faltam testes finais.
-Depois dessa função, vou criar uma que estude o redirecionamento e o registre.
-/*
