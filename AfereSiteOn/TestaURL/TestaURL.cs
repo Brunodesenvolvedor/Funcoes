@@ -25,7 +25,6 @@ public class TestaURL
         try
         {
             var request = new HttpRequestMessage(HttpMethod.Head, url);
-
             var resposta = await client.SendAsync(request);
             /*
             - HttpRequestMessage permite montar manualmente uma requisição HTTP;
